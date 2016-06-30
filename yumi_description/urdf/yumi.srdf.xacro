@@ -1,0 +1,28 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="yumi">
+
+  <xacro:macro name="yumi_arm" params="side postfix">
+    <group name="${side}">
+      <chain base_link="yumi_body" tip_link="yumi_link_7_${postfix}"/>
+    </group>
+
+    <group name="${side}_hand">
+      <link name="gripper_${postfix}_base"/>
+      <link name="gripper_${postfix}_finger_r"/>
+      <link name="gripper_${postfix}_finger_l"/>
+    </group>
+
+    <end_effector name="${side}_hand" group="${side}_hand"
+                  parent_link="yumi_link_7_${postfix}" parent_group="${side}"/>
+
+    <!-- Disable collisions between hand links -->
+    <disable_collisions link1="gripper_${postfix}_base" link2="gripper_${postfix}_finger_r"/>
+    <disable_collisions link1="gripper_${postfix}_base" link2="gripper_${postfix}_finger_l"/>
+    <disable_collisions link1="gripper_${postfix}_finger_r" link2="gripper_${postfix}_finger_l"/>
+
+    <!-- Disable arm self-collisions -->
+    <!-- TODO -->
+  </xacro:macro>
+
+  <xacro:yumi_arm side="left" postfix="l"/>
+  <xacro:yumi_arm side="right" postfix="r"/>
+</robot>
